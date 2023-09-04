@@ -1,13 +1,13 @@
 const config = require('./config');
 const { connectDB } = require('./database/connection');
-const { exampleRepository } = require('./repositories/example');
-const exampleService = require('./services/example');
+const { productRepository } = require('./repositories/product');
+const productService = require('./services/product');
 const loggerFactory = require('./logger');
 
 const testApp = () => ({
   loggerFactory,
-  exampleRepository,
-  exampleService,
+  productRepository,
+  productService,
 });
 
 const prodApp = () => {
@@ -15,8 +15,8 @@ const prodApp = () => {
 
   return {
     loggerFactory,
-    exampleRepository,
-    exampleService,
+    productRepository,
+    productService,
   };
 };
 
