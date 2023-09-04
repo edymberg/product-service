@@ -8,7 +8,11 @@ const errorHandler = (error, req, res, next) => {
       message: error.message,
     });
   } else {
-    // TODO: handle other kind of errors
+    req.logger.log(`Status code: ${500} - ${error.stack}`);
+    res.status(500);
+    res.json({
+      message: 'Oops! Something failed, please try again later',
+    });
     next();
   }
 };

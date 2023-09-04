@@ -1,9 +1,9 @@
 const express = require('express');
-const { registerExampleRoutes } = require('./example');
+const { registerProductRoutes } = require('./products');
 
 const initV1 = (application) => {
   const router = express.Router();
-  registerExampleRoutes(router, application);
+  registerProductRoutes(router, application);
   return router;
 };
 
