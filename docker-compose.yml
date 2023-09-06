@@ -28,7 +28,7 @@ services:
     ports:
       - ${PORT}:${PORT}
     healthcheck:
-      test: curl --connect-timeout 90 --max-time 90 --retry 4 --retry-delay 30 --retry-max-time 90 --retry-connrefused "http://localhost:3000/healthcheck" | sh
+      test: curl --connect-timeout 90 --max-time 90 --retry 4 --retry-delay 30 --retry-max-time 90 --retry-connrefused "http://localhost:${PORT}/healthcheck" | sh
       interval: 5s
       timeout: 30s
       retries: 6

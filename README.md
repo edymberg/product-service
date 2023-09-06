@@ -22,9 +22,6 @@ This is a microservice using NodeJS with Express and MongoDB.
 - `docker compose -f docker-compose.debug.yml --env-file .env-test up -d --wait --wait-timeout 60 --build`
 - click on debug script on `package.json`
 
-And then just start the server:
-* `npm run serve`
-
 ## App setup with Docker
 - TEST: `docker compose --env-file .env-test up -d --wait --wait-timeout 60 --build`
 - DEV: `docker compose --env-file .env-dev up -d --wait --wait-timeout 60 --build` (also used on CI)
