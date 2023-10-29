@@ -1,19 +1,23 @@
+const Product = require('../../domain/product');
 const { asyncHandler } = require('../../middlewares/asyncHandler');
 
 const registerProductRoutes = (router, application) => {
   router
     .route('/product')
     .post(asyncHandler(async (req, res) => {
-      const { SKU, name } = req.body;
-      const product = await application.productService.createProduct({
-        SKU, name, ...application, logger: req.logger,
+      const product = new Product({ SKU: req.body.SKU, name: req.body.name });
+
+      const sku = await application.productService.createProduct({
+        product,
+        productRepository: application.productRepository,
+        logger: req.logger,
       });
-      return res
-        .status(200)
-        .send({
-          message: 'Product successfully created',
-          productSKU: product.SKU,
-        });
+      const createProductResponse = {
+        message: 'Product successfully created',
+        productSKU: sku,
+      };
+
+      return res.status(200).send(createProductResponse);
     }));
 };
 

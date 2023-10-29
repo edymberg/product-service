@@ -1,9 +1,11 @@
 const { restoreMocks } = require('../restoreMocks');
 const { createProduct } = require('../../src/services/product');
 const { productRepository } = require('../../src/repositories/product');
+const Product = require('../../src/domain/product');
 
 describe('Product service test', () => {
   let saveSpy;
+  let doSaveSpy;
   let findBySKUSpy;
   let SKU = 'SKU';
   let name = 'product name';
@@ -12,7 +14,8 @@ describe('Product service test', () => {
     // Mock console.log to do nothing:
     require('../loggerMock');
 
-    saveSpy = jest.spyOn(productRepository, 'save').mockImplementation(() => {});
+    saveSpy = jest.spyOn(productRepository, 'save');
+    doSaveSpy = jest.spyOn(productRepository, 'doSave').mockImplementation(() => {});
     findBySKUSpy = jest.spyOn(productRepository, 'findBySKU').mockImplementation(() => {});
   });
 
@@ -22,8 +25,7 @@ describe('Product service test', () => {
 
   const subject = async () => {
     await createProduct({
-      SKU,
-      name,
+      product: new Product({ SKU, name }),
       productRepository,
       logger: console
     });
@@ -32,8 +34,9 @@ describe('Product service test', () => {
   it('should save product', async () => {
     await subject();
 
-    expect(findBySKUSpy).toHaveBeenCalled();
     expect(saveSpy).toHaveBeenCalled();
+    expect(findBySKUSpy).toHaveBeenCalled();
+    expect(doSaveSpy).toHaveBeenCalled();
   });
 
   it('should return 204 status with message if SKU is already taken', async () => {
@@ -43,20 +46,22 @@ describe('Product service test', () => {
 
     await expect(subject()).rejects.toThrow('SKU already taken');
 
+    expect(saveSpy).toHaveBeenCalled();
     expect(findBySKUSpy).toHaveBeenCalled();
-    expect(saveSpy).not.toHaveBeenCalled();
+    expect(doSaveSpy).not.toHaveBeenCalled();
   });
 
   it('should return 204 status with message if saving product fails', async () => {
     saveSpy = jest
-      .spyOn(productRepository, 'save')
+      .spyOn(productRepository, 'doSave')
       .mockImplementation(() => {
         throw new Error('Error while saving!');
       });
 
     await expect(subject()).rejects.toThrow('Error while saving!');
 
-    expect(findBySKUSpy).toHaveBeenCalled();
     expect(saveSpy).toHaveBeenCalled();
+    expect(findBySKUSpy).toHaveBeenCalled();
+    expect(doSaveSpy).toHaveBeenCalled();
   });
 });

@@ -29,7 +29,7 @@ describe('Product API', () => {
         .send({ SKU, name });
     };
       
-    it('should save product', async () => {
+    it('should return 200 status with message if saving product goes well', async () => {
       await subject();
 
       expect(response.status).toBe(200);
