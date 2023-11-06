@@ -4,10 +4,10 @@
   "description": "Products Service API",
   "main": "index.js",
   "scripts": {
-    "debug": "nodemon --inspect=0.0.0.0:9229 ./src/server.js",
-    "serve": "nodemon ./src/server.js",
-    "start": "node ./src/server.js",
-    "lint": "eslint './src/**/*.js'",
+    "debug": "nodemon --inspect=0.0.0.0:9229 ./src/infraestructure/server.js",
+    "serve": "nodemon ./src/infraestructure/server.js",
+    "start": "node ./src/infraestructure/server.js",
+    "lint": "eslint './**/*.js'",
     "test": "jest --runInBand --detectOpenHandles",
     "test-coverage": "jest --collect-coverage --passWithNoTests"
   },
